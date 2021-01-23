@@ -11,8 +11,8 @@ body:not(.dark-mode) button.filter:hover {
 }
 body:not(.dark-mode) .close-container {
   position: absolute;
-  top: -15px;
-  right: -15px;
+  top: 0px;
+  right: 0px;
   background: transparent !important;
 }
 body:not(.dark-mode) .close {
@@ -36,7 +36,7 @@ body:not(.dark-mode) dialog {
   background: white !important;
   box-shadow: 0 0 32px 16px rgba(0, 0, 0, 0.32);
   transition: all 0.3s ease;
-  border-radius: 16px;
+  border-radius: 10px;
   color: transparent !important;
 }
 body:not(.dark-mode) #modal-content {
@@ -140,7 +140,7 @@ body.dark-mode dialog {
   background: white !important;
   box-shadow: 0 0 32px 16px rgba(0, 0, 0, 0.32);
   transition: all 0.3s ease;
-  border-radius: 16px;
+  border-radius: 10px;
   color: transparent !important;
 }
 body.dark-mode #modal-content {
@@ -180,6 +180,7 @@ body.dark-mode .btn-secondary {
   overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
+  border-radius: 5px;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -219,4 +220,13 @@ fieldset label {
 
 fieldset label:not(:first-child) {
   margin-left: 15px;
+}
+
+input.form-control {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+p {
+  color: black;
 }

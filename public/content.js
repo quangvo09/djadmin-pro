@@ -35,6 +35,37 @@ function applyFilter(searchParams, columnName) {
 
       return false;
     }
+    case "string": {
+      const radioButtons = document.getElementsByName("filter-string");
+      const operator = Array.from(radioButtons).find((r) => r.checked)?.value;
+      const value = dialog.querySelector(".string-query-box").value?.trim();
+
+      if (value?.length > 1 && operator?.length > 0) {
+        searchParams.set(`${columnName}__${operator}`, value);
+        return true;
+      }
+
+      return false;
+    }
+    case "datetime": {
+      const radioButtons = document.getElementsByName("filter-datetime");
+      const operator = Array.from(radioButtons).find((r) => r.checked)?.value;
+      const value = dialog.querySelector("#datetime_value").value?.trim();
+
+      if (value?.length > 1 && operator?.length > 0) {
+        const localDate = new Date(value);
+        const year = `${localDate.getUTCFullYear()}`;
+        const month = `${localDate.getUTCMonth() + 1}`.padStart(2, "0");
+        const day = `${localDate.getUTCDate()}`.padStart(2, "0");
+        const hour = `${localDate.getUTCHours()}`.padStart(2, "0");
+        const minute = `${localDate.getUTCMinutes()}`.padStart(2, "0");
+        const dateString = `${year}-${month}-${day} ${hour}:${minute}`;
+        searchParams.set(`${columnName}__${operator}`, dateString);
+        return true;
+      }
+
+      return false;
+    }
     default:
       return false;
   }
@@ -70,7 +101,9 @@ function appendModal() {
       <div class="filter-column"></div>
       <div class="tab">
         <button class="tab-links active" id="tab-link-match">Match</button>
-        <button class="tab-links" id="tab-link-null">Null</button>
+        <button class="tab-links" id="tab-link-null">Is Null</button>
+        <button class="tab-links" id="tab-link-string">String</button>
+        <button class="tab-links" id="tab-link-datetime">DateTime</button>
       </div>
     </div>
     <!-- Tab content -->
@@ -84,6 +117,31 @@ function appendModal() {
         <label for="is-not-null">False</label>
         <input type="radio" name="filter-null" id="is-not-null" value="False">
       </fieldset>
+    </div>
+    <div id="string" class="tab-content">
+      <fieldset>
+        <label for="contains">Contains</label>
+        <input type="radio" name="filter-string" id="contains" value="icontains">
+        <label for="starts-with">Starts With</label>
+        <input type="radio" name="filter-string" id="starts-with" value="startswith">
+        <label for="starts-with">Ends With</label>
+        <input type="radio" name="filter-string" id="starts-with" value="endswith">
+      </fieldset>
+      <div>
+        <input type="text" class="string-query-box form-control" name="string-query-box" />
+      </div>
+    </div>
+    <div id="datetime" class="tab-content">
+      <fieldset>
+        <label for="greater_than_or_equal_to">gte (>=)</label>
+        <input type="radio" name="filter-datetime" id="greater_than_or_equal_to" value="gte">
+        <label for="less_than_or_equal_to">lte (<=)</label>
+        <input type="radio" name="filter-datetime" id="less_than_or_equal_to" value="lte">
+      </fieldset>
+      <div>
+        <input type="datetime-local" id="datetime_value" name="datetime">
+        <p><strong>DateTime</strong> is not supported in Firefox, Safari or Internet Explorer 12 (or earlier). ^^</p>
+      </div>
     </div>
     <div id="modal-footer">
       <div class="flex-row">
@@ -107,6 +165,16 @@ function appendModal() {
   dialog.querySelector("#tab-link-null").addEventListener("click", (event) => {
     openTab(event, "null");
   });
+  dialog
+    .querySelector("#tab-link-string")
+    .addEventListener("click", (event) => {
+      openTab(event, "string");
+    });
+  dialog
+    .querySelector("#tab-link-datetime")
+    .addEventListener("click", (event) => {
+      openTab(event, "datetime");
+    });
 
   dialog
     .querySelector("button.btn-append-filter")
@@ -114,7 +182,14 @@ function appendModal() {
       const columnName = dialog.querySelector(".filter-column").innerHTML;
 
       if ("URLSearchParams" in window) {
-        const searchParams = new URLSearchParams(window.location.search);
+        const prevSearchParams = new URLSearchParams(window.location.search);
+        const searchParams = new URLSearchParams();
+        prevSearchParams.forEach((value, key) => {
+          if (!key.startsWith(`${columnName}__`)) {
+            searchParams.set(key, value);
+          }
+        });
+
         const isApplied = applyFilter(searchParams, columnName);
         if (isApplied) {
           window.location.search = searchParams.toString();
