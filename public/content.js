@@ -107,12 +107,29 @@ function openTab(evt, key) {
 
 function appendModal() {
   const modal = document.createElement("dialog");
+  var columns = document.querySelectorAll("#result_list th.sortable");
+
+  const columnNames = [];
+  columns.forEach(function (col) {
+    const classNames = col.className.split(" ");
+    const tableColumn = classNames.find((c) => c.startsWith("column-"));
+    const columnName = tableColumn.split("-")[1];
+    columnNames.push(columnName);
+  });
+
   modal.innerHTML = `
     <div class="close-container">
       <button class="close">x</button>
     </div>
     <div id="modal-content">
       <div class="filter-column"></div>
+      <div class="filter-select">
+        <select name="table-columns" id="table-columns">
+          ${columnNames
+            .map((c) => `<option value="${c}">${c}</option>`)
+            .join("")}
+        </select>
+      </div>
       <div class="tab">
         <button class="tab-links active" id="tab-link-match">Match</button>
         <button class="tab-links" id="tab-link-null">Is Null</button>
@@ -205,7 +222,8 @@ function appendModal() {
   dialog
     .querySelector("button.btn-append-filter")
     .addEventListener("click", () => {
-      const columnName = dialog.querySelector(".filter-column").innerHTML;
+      const element = document.getElementById("table-columns");
+      const columnName = element.value;
 
       if ("URLSearchParams" in window) {
         const prevSearchParams = new URLSearchParams(window.location.search);
@@ -224,7 +242,8 @@ function appendModal() {
     });
 
   dialog.querySelector("button.btn-filter").addEventListener("click", () => {
-    const columnName = dialog.querySelector(".filter-column").innerHTML;
+    const element = document.getElementById("table-columns");
+    const columnName = element.value;
 
     if ("URLSearchParams" in window) {
       const searchParams = new URLSearchParams();
@@ -238,7 +257,9 @@ function appendModal() {
 
 function showModal(columnName) {
   const dialog = document.querySelector("dialog");
-  dialog.querySelector(".filter-column").innerHTML = columnName;
+  // dialog.querySelector(".filter-column").innerHTML = columnName;
+  const element = document.getElementById("table-columns");
+  element.value = columnName;
   dialog.showModal();
 
   setTimeout(() => {
