@@ -15,6 +15,20 @@ function applyFilter(searchParams, columnName) {
 
       return false;
     }
+    case "empty": {
+      const radioButtons = document.getElementsByName("filter-empty");
+      const value = Array.from(radioButtons).find((r) => r.checked)?.value;
+
+      if (value === "True") {
+        searchParams.set(`${columnName}__regex`, `^\s*$`);
+        return true;
+      } else if (value === "False") {
+        searchParams.set(`${columnName}__regex`, `\S`);
+        return true;
+      }
+
+      return false;
+    }
     case "match": {
       const value = dialog.querySelector(".filter-box").value?.trim();
 
@@ -102,6 +116,7 @@ function appendModal() {
       <div class="tab">
         <button class="tab-links active" id="tab-link-match">Match</button>
         <button class="tab-links" id="tab-link-null">Is Null</button>
+        <button class="tab-links" id="tab-link-empty">Is Empty</button>
         <button class="tab-links" id="tab-link-string">String</button>
         <button class="tab-links" id="tab-link-datetime">DateTime</button>
       </div>
@@ -113,9 +128,17 @@ function appendModal() {
     <div id="null" class="tab-content">
       <fieldset>
         <label for="is-null">True</label>
-        <input type="radio" name="filter-null" id="is-null" value="True">
+        <input type="radio" name="filter-null" id="is-null" value="True" checked>
         <label for="is-not-null">False</label>
         <input type="radio" name="filter-null" id="is-not-null" value="False">
+      </fieldset>
+    </div>
+    <div id="empty" class="tab-content">
+      <fieldset>
+        <label for="is-empty">True</label>
+        <input type="radio" name="filter-empty" id="is-empty" value="True" checked>
+        <label for="is-not-empty">False</label>
+        <input type="radio" name="filter-empty" id="is-not-empty" value="False">
       </fieldset>
     </div>
     <div id="string" class="tab-content">
@@ -164,6 +187,9 @@ function appendModal() {
   });
   dialog.querySelector("#tab-link-null").addEventListener("click", (event) => {
     openTab(event, "null");
+  });
+  dialog.querySelector("#tab-link-empty").addEventListener("click", (event) => {
+    openTab(event, "empty");
   });
   dialog
     .querySelector("#tab-link-string")
