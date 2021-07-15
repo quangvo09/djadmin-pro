@@ -91,6 +91,5 @@ function bindSearchTable() {
   });
 }
 
-console.log("HIHI");
 appendSearchTableDialog();
 bindSearchTable();

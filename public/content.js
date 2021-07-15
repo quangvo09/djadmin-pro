@@ -107,7 +107,6 @@ function openTab(evt, key) {
 }
 
 function setFilter() {
-  console.log("hehe");
   const element = document.getElementById("table-columns");
   const columnName = element.value;
 
@@ -260,7 +259,6 @@ function showModal(columnName, focusInput) {
   // dialog.querySelector(".filter-column").innerHTML = columnName;
   const element = document.getElementById("table-columns");
   element.value = columnName;
-  console.log("hello");
   if (selectInstance) {
     selectInstance.destroy();
   }
