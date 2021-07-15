@@ -1,4 +1,5 @@
 var currentTab = "match";
+var selectInstance = null;
 
 function applyFilter(searchParams, columnName) {
   const dialog = document.querySelector("dialog");
@@ -105,8 +106,43 @@ function openTab(evt, key) {
   evt.currentTarget.className += " active";
 }
 
+function setFilter() {
+  console.log("hehe");
+  const element = document.getElementById("table-columns");
+  const columnName = element.value;
+
+  if ("URLSearchParams" in window) {
+    const searchParams = new URLSearchParams();
+    const isApplied = applyFilter(searchParams, columnName);
+    if (isApplied) {
+      window.location.search = searchParams.toString();
+    }
+  }
+}
+
+function appendFilter() {
+  const element = document.getElementById("table-columns");
+  const columnName = element.value;
+
+  if ("URLSearchParams" in window) {
+    const prevSearchParams = new URLSearchParams(window.location.search);
+    const searchParams = new URLSearchParams();
+    prevSearchParams.forEach((value, key) => {
+      if (!key.startsWith(`${columnName}__`)) {
+        searchParams.set(key, value);
+      }
+    });
+
+    const isApplied = applyFilter(searchParams, columnName);
+    if (isApplied) {
+      window.location.search = searchParams.toString();
+    }
+  }
+}
+
 function appendModal() {
   const modal = document.createElement("dialog");
+  modal.className = "filter";
   var columns = document.querySelectorAll("#result_list th.sortable");
 
   const columnNames = [];
@@ -117,6 +153,8 @@ function appendModal() {
     columnNames.push(columnName);
   });
 
+  columnNames.sort();
+
   modal.innerHTML = `
     <div class="close-container">
       <button class="close">x</button>
@@ -124,23 +162,23 @@ function appendModal() {
     <div id="modal-content">
       <div class="filter-column"></div>
       <div class="filter-select">
-        <select name="table-columns" id="table-columns">
+        <select name="table-columns" id="table-columns" class="wide">
           ${columnNames
             .map((c) => `<option value="${c}">${c}</option>`)
             .join("")}
         </select>
       </div>
       <div class="tab">
-        <button class="tab-links active" id="tab-link-match">Match</button>
-        <button class="tab-links" id="tab-link-null">Is Null</button>
-        <button class="tab-links" id="tab-link-empty">Is Empty</button>
-        <button class="tab-links" id="tab-link-string">String</button>
-        <button class="tab-links" id="tab-link-datetime">DateTime</button>
+        <button class="tab-links active" target="match" id="tab-link-match">Match</button>
+        <button class="tab-links" target="null" id="tab-link-null">Is Null</button>
+        <button class="tab-links" target="empty" id="tab-link-empty">Is Empty</button>
+        <button class="tab-links" target="string" id="tab-link-string">String</button>
+        <button class="tab-links" target="datetime" id="tab-link-datetime">DateTime</button>
       </div>
     </div>
     <!-- Tab content -->
     <div id="match" class="tab-content" style="display: block;">
-      <textarea class="filter-box" name="filter-box" rows="10"></textarea>
+      <textarea class="filter-box" id="filter-box" name="filter-box" rows="10" tabindex="1"></textarea>
     </div>
     <div id="null" class="tab-content">
       <fieldset>
@@ -185,8 +223,8 @@ function appendModal() {
     </div>
     <div id="modal-footer">
       <div class="flex-row">
-        <button class="btn btn-primary btn-append-filter">Filter</button>
-        <button class="btn btn-secondary btn-filter">Filter Only Column</button>
+        <button class="btn btn-primary btn-append-filter">Append filter(Shift + &#9166)</button>
+        <button class="btn btn-secondary btn-filter">Apply condition(Ctrl + &#9166)</button>
       </div>
     </div>
   `;
@@ -199,72 +237,48 @@ function appendModal() {
   });
 
   // Binding tab links
-  dialog.querySelector("#tab-link-match").addEventListener("click", (event) => {
-    openTab(event, "match");
-  });
-  dialog.querySelector("#tab-link-null").addEventListener("click", (event) => {
-    openTab(event, "null");
-  });
-  dialog.querySelector("#tab-link-empty").addEventListener("click", (event) => {
-    openTab(event, "empty");
-  });
-  dialog
-    .querySelector("#tab-link-string")
-    .addEventListener("click", (event) => {
-      openTab(event, "string");
+  const els = dialog.querySelectorAll(".tab-links");
+
+  for (let i = 0; i < els.length; i++) {
+    els[i].addEventListener("click", (event) => {
+      const target = els[i].getAttribute("target");
+      openTab(event, target);
     });
-  dialog
-    .querySelector("#tab-link-datetime")
-    .addEventListener("click", (event) => {
-      openTab(event, "datetime");
-    });
+  }
 
   dialog
     .querySelector("button.btn-append-filter")
-    .addEventListener("click", () => {
-      const element = document.getElementById("table-columns");
-      const columnName = element.value;
+    .addEventListener("click", appendFilter);
 
-      if ("URLSearchParams" in window) {
-        const prevSearchParams = new URLSearchParams(window.location.search);
-        const searchParams = new URLSearchParams();
-        prevSearchParams.forEach((value, key) => {
-          if (!key.startsWith(`${columnName}__`)) {
-            searchParams.set(key, value);
-          }
-        });
-
-        const isApplied = applyFilter(searchParams, columnName);
-        if (isApplied) {
-          window.location.search = searchParams.toString();
-        }
-      }
-    });
-
-  dialog.querySelector("button.btn-filter").addEventListener("click", () => {
-    const element = document.getElementById("table-columns");
-    const columnName = element.value;
-
-    if ("URLSearchParams" in window) {
-      const searchParams = new URLSearchParams();
-      const isApplied = applyFilter(searchParams, columnName);
-      if (isApplied) {
-        window.location.search = searchParams.toString();
-      }
-    }
-  });
+  dialog
+    .querySelector("button.btn-filter")
+    .addEventListener("click", setFilter);
 }
 
-function showModal(columnName) {
-  const dialog = document.querySelector("dialog");
+function showModal(columnName, focusInput) {
+  const dialog = document.querySelector("dialog.filter");
   // dialog.querySelector(".filter-column").innerHTML = columnName;
   const element = document.getElementById("table-columns");
   element.value = columnName;
+  console.log("hello");
+  if (selectInstance) {
+    selectInstance.destroy();
+  }
+  selectInstance = new NiceSelect(document.getElementById("table-columns"), {
+    searchable: true,
+    onChanged: function () {
+      setTimeout(() => {
+        dialog.querySelector(".filter-box").focus();
+      }, 300);
+    },
+  });
   dialog.showModal();
 
-  setTimeout(() => {
-    dialog.querySelector(".filter-box").focus();
-  }, 300);
+  if (focusInput != false) {
+    setTimeout(() => {
+      dialog.querySelector(".filter-box").focus();
+    }, 300);
+  }
 }
 
 function appendFilterButtons() {
@@ -283,10 +297,46 @@ function appendFilterButtons() {
     button.addEventListener("click", function (event) {
       event.preventDefault();
       showModal(columnName);
+      setTimeout(() => {
+        dialog.querySelector(".filter-box").focus();
+      }, 300);
     });
   });
+}
+
+function bindSearchField() {
+  document.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.key === "j") {
+      showModal(null, false);
+      setTimeout(() => {
+        selectInstance.focus();
+      }, 300);
+    }
+  });
+}
+
+function bindFilterApply() {
+  const dialog = document.querySelector("dialog.filter");
+
+  dialog.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.keyCode == 13) {
+      setFilter();
+      event.preventDefault();
+    }
+
+    if (event.shiftKey && event.keyCode == 13) {
+      appendFilter();
+      event.preventDefault();
+    }
+  });
+}
+
+function bindingHotkey() {
+  bindSearchField();
+  bindFilterApply();
 }
 
 /// BOOTSTRAP \\\
 appendModal();
 appendFilterButtons();
+bindingHotkey();
