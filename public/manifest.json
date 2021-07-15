@@ -1,16 +1,21 @@
 {
   "name": "Djadmin Pro",
   "manifest_version": 2,
-  "version": "0.0.1",
+  "version": "1.1.0",
   "description": "Help you to like a Pro",
   "content_scripts": [{
-    "js": [ "content.js"],
-    "css" : ["content.css"],
+    "js": ["similarity.js", "nice-select2.js", "content.js", "searchTable.js"],
+    "css" : ["nice-select2.css", "content.css"],
     "matches": ["https://dev-djadmin.onpoint.vn/*", "https://djadmin.onpoint.vn/*"]
    }],
   "background": {
     "scripts": ["background.js"]
    },
    "permissions": ["contextMenus", "tabs", "storage"],
-   "web_accessible_resources" : ["*.html"]
+   "web_accessible_resources" : ["*.html"],
+   "icons": {
+       "32": "img/icon32.png",
+       "48": "img/icon48.png",
+       "96": "img/icon96.png"
+   }
 }
