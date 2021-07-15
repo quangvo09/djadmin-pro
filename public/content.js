@@ -198,7 +198,7 @@ function appendModal() {
     <div id="string" class="tab-content">
       <fieldset>
         <label for="contains">Contains</label>
-        <input type="radio" name="filter-string" id="contains" value="icontains">
+        <input type="radio" name="filter-string" id="contains" value="icontains" checked>
         <label for="starts-with">Starts With</label>
         <input type="radio" name="filter-string" id="starts-with" value="startswith">
         <label for="starts-with">Ends With</label>
@@ -211,7 +211,7 @@ function appendModal() {
     <div id="datetime" class="tab-content">
       <fieldset>
         <label for="greater_than_or_equal_to">gte (>=)</label>
-        <input type="radio" name="filter-datetime" id="greater_than_or_equal_to" value="gte">
+        <input type="radio" name="filter-datetime" id="greater_than_or_equal_to" value="gte" checked>
         <label for="less_than_or_equal_to">lte (<=)</label>
         <input type="radio" name="filter-datetime" id="less_than_or_equal_to" value="lte">
       </fieldset>
