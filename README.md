@@ -10,12 +10,15 @@ An Awesome extension that help quering with django faster and easier
 - Support both Chrome and Firefox
 
 ## II. Install
-
-View [release](/djadmin_pro/releases) sections and download appropriate for Chrome and Firefox
+Download extension
+https://img.shields.io/badge/dynamic/json.svg?<br></br>label=download<br></br>&url=https://api.github.com/repos/onpointvn/djadmin-pro/releases/latest<br></br>&query=$.assets[0].name<br></br>&style=for-the-badge
 
 ### For Chrome
-Double click on the download file
-And Click `Continue`
+- Open Extension page
+
+- Drag and drop extention file to Extension page
+
+- And Click `Continue`
 ![chrome install](./docs/img/chrome-install.png)
 
 
