@@ -27,6 +27,7 @@ And Click `Continue`
 - Select Extension file
 
 - Click `Add` when asked
+
 ![Firefox add](./docs/img/firefox-install2.png)
 
 
