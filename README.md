@@ -11,7 +11,7 @@ An Awesome extension that help quering with django faster and easier
 
 ## II. Install
 
-View [release](./releases) sections and download appropriate for Chrome and Firefox
+View [release](/djadmin_pro/releases) sections and download appropriate for Chrome and Firefox
 
 ### For Chrome
 Double click on the download file
