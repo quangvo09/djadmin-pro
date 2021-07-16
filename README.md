@@ -11,8 +11,23 @@ An Awesome extension that help quering with django faster and easier
 
 ## Install
 
-View release sections
+View [release](./releases) sections and download appropriate for Chrome and Firefox
 
+### For Chrome
+Double click on the download file
+And Click `Continue`
+![chrome install](./docs/img/chrome-install.png)
+
+
+### Firefox
+- Open `Addons and Themes` and Install from file
+
+![Firefox install](./docs/img/firefox-install.png)
+
+- Select Extension file
+
+- Click `Add` when asked
+![Firefox add](./docs/img/firefox-install2.png)
 
 
 ## Usage
