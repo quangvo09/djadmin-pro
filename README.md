@@ -11,7 +11,7 @@ An Awesome extension that help quering with django faster and easier
 
 ## II. Install
 Download extension
-https://img.shields.io/badge/dynamic/json.svg?<br></br>label=download<br></br>&url=https://api.github.com/repos/onpointvn/djadmin-pro/releases/latest<br></br>&query=$.assets[0].name<br></br>&style=for-the-badge
+![Download](https://img.shields.io/badge/dynamic/json.svg?<br></br>label=download<br></br>&url=https://api.github.com/repos/onpointvn/djadmin-pro/releases/latest<br></br>&query=$.assets[0].name<br></br>&style=for-the-badge)
 
 ### For Chrome
 - Open Extension page
