@@ -2,14 +2,14 @@
 
 An Awesome extension that help quering with django faster and easier
 
-## Features
+## I. Features
 
 - UI for building query
 - Quick search and open table
 - Support hotkey
 - Support both Chrome and Firefox
 
-## Install
+## II. Install
 
 View [release](./releases) sections and download appropriate for Chrome and Firefox
 
@@ -31,9 +31,9 @@ And Click `Continue`
 ![Firefox add](./docs/img/firefox-install2.png)
 
 
-## Usage
+## III. Usage
 
-### Filter with UI
+### 1. Filter with UI
 
 - Click on column name or press `Ctrl + j` to open the dialog and search for column name
 
@@ -48,7 +48,7 @@ After input the value you can
 
 
 
-### Search table easier
+### 2. Search table easier
 
 Press `Ctrl + Shift + j` to open search table dialog
 
