@@ -1,4 +1,4 @@
-# Add some magic to Dj Admin
+# Add some magic to Django
 
 An Awesome extension that help quering with django faster and easier
 
