@@ -13,10 +13,11 @@ An Awesome extension that help quering with django faster and easier
 Download extension
 ### [Download](https://github.com/quangvo09/djadmin-pro/releases)
 
-### For Chrome
-- Open Extension page
-
-- Drag and drop extention file to Extension page
+### For Chrome ("Load unpacked extension")
+1. Download and unpack the source code from the latest release or git-clone the master branch of this repository into a local folder
+2. Navigate to chrome://extensions
+3. Enable developer mode
+4. Click on "Load unpacked extension" and select folder
 
 - And Click `Continue`
 ![chrome install](./docs/img/chrome-install.png)
