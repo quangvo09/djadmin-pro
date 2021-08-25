@@ -19,9 +19,6 @@ Download extension
 3. Enable developer mode
 4. Click on "Load unpacked extension" and select folder
 
-- And Click `Continue`
-![chrome install](./docs/img/chrome-install.png)
-
 
 ### Firefox
 - Open `Addons and Themes` and Install from file
