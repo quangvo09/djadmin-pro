@@ -6,7 +6,7 @@
   "content_scripts": [{
     "js": ["similarity.js", "nice-select2.js", "content.js", "searchTable.js"],
     "css" : ["nice-select2.css", "content.css"],
-    "matches": ["https://dev-djadmin.onpoint.vn/*", "https://djadmin.onpoint.vn/*"]
+    "matches": ["https://dev-djadmin.onpoint.vn/*", "https://djadmin.onpoint.vn/*", "https://stg-djadmin.onpoint.vn/*"]
    }],
   "background": {
     "scripts": ["background.js"]
