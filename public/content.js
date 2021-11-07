@@ -304,7 +304,10 @@ function appendFilterButtons() {
 
 function bindSearchField() {
   document.addEventListener("keydown", function (event) {
-    if (event.ctrlKey && event.key === "j") {
+    if (
+      (event.ctrlKey && event.key === "j") ||
+      (event.shiftKey && event.altKey && event.key === "p")
+    ) {
       showModal(null, false);
       setTimeout(() => {
         selectInstance.focus();

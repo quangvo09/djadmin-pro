@@ -81,7 +81,10 @@ function appendSearchTableDialog() {
 
 function bindSearchTable() {
   document.addEventListener("keydown", function (event) {
-    if (event.ctrlKey && event.key === "J") {
+    if (
+      (event.ctrlKey && event.key === "J") ||
+      (event.metaKey && event.shiftKey && event.key === "p")
+    ) {
       const dialog = document.querySelector("dialog.search");
       dialog.showModal();
       setTimeout(() => {
