@@ -1,11 +1,64 @@
-### Extension for using Django easier
+# Add some magic to Django
 
-Build UI for quering with django faster and easier
+An Awesome extension that help quering with django faster and easier
 
-### Screenshots
+## I. Features
 
-<img width="921" alt="Screen Shot 2021-07-05 at 20 45 27" src="https://user-images.githubusercontent.com/6206464/124481000-07489500-ddd2-11eb-8480-de2b581b8fd3.png">
+- UI for building query
+- Quick search and open table
+- Support hotkey
+- Support both Chrome and Firefox
 
-<img width="486" alt="Screen Shot 2021-07-05 at 20 45 36" src="https://user-images.githubusercontent.com/6206464/124481019-0b74b280-ddd2-11eb-9530-d20f5a2e89c2.png">
+## II. Install
+Download extension
+### [Download](https://github.com/quangvo09/djadmin-pro/releases)
 
-<img width="503" alt="Screen Shot 2021-07-05 at 20 45 47" src="https://user-images.githubusercontent.com/6206464/124481039-10396680-ddd2-11eb-8ad2-f6a1837c492e.png">
+### For Chrome ("Load unpacked extension")
+1. Download and unpack the source code from the latest release or git-clone the master branch of this repository into a local folder
+2. Navigate to chrome://extensions
+3. Enable developer mode
+4. Click on "Load unpacked extension" and select folder
+
+
+### Firefox
+- Open `Addons and Themes` and Install from file
+
+![Firefox install](./docs/img/firefox-install.png)
+
+- Select Extension file
+
+- Click `Add` when asked
+
+![Firefox add](./docs/img/firefox-install2.png)
+
+
+## III. Usage
+
+### 1. Filter with UI
+
+- Click on column name or press `Ctrl + j` to open the dialog and search for column name
+
+![Filter dialog](./docs/img/dialog.png)
+
+
+
+After input the value you can
+
++ Press `Ctrl + Enter` to apply current filter
++ Press `Shift + Enter` to append current filter to existing filters
+
+
+
+### 2. Search table easier
+
+Press `Ctrl + Shift + j` to open search table dialog
+
+![seach table](./docs/img/search_table.png)
+
+
+
+Search table name and then
+
++ `Enter` to open selected table
++ `Ctrl + Enter`/`Cmd + Enter` to open selected table in a new tab
+
