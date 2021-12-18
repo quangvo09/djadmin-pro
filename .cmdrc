@@ -1,0 +1,46 @@
+{
+	"pull_request": {
+		"feature": {
+			"base_branches": [
+				"develop",
+				"integration"
+			],
+			"assignees": [
+				"me"
+			],
+			"reviewers": [
+				"me"
+			],
+			"template": "# Overview\n\n# Features\n\n# Tested\n"
+		},
+		"release": {
+			"base_branches": [
+				"master"
+			],
+			"assignees": [
+				"me"
+			],
+			"reviewers": [
+				"me"
+			],
+			"labels": [
+				"release"
+			]
+		},
+		"hotfix": {
+			"base_branches": [
+				"master"
+			],
+			"assignees": [
+				"me"
+			],
+			"reviewers": [
+				"me"
+			],
+			"labels": [
+				"hotfix"
+			],
+			"template": "# Overview\n\n# Tested\n"
+		}
+	}
+}
