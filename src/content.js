@@ -332,6 +332,18 @@ function bindFilterApply() {
   });
 }
 
+function cleanDecimalValue() {
+  const pattern = /^(\d+.0{2})(0{10,})(.*)$/;
+  document
+    .querySelectorAll('#result_list td[class^="field-"]')
+    .forEach(function (el) {
+      const text = el.textContent;
+      if (text.match(pattern)) {
+        el.textContent = text.replace(pattern, "$1");
+      }
+    });
+}
+
 function bindingHotkey() {
   bindSearchField();
   bindFilterApply();
@@ -341,3 +353,4 @@ function bindingHotkey() {
 appendModal();
 appendFilterButtons();
 bindingHotkey();
+cleanDecimalValue();
