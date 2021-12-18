@@ -9,7 +9,8 @@
         "similarity.js",
         "nice-select2.js",
         "content.js",
-        "searchTable.js"
+        "searchTable.js",
+        "injects/inject-app-list.js"
       ],
       "css": ["nice-select2.css", "content.css"],
       "matches": [
