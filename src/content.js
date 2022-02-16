@@ -287,6 +287,31 @@ function appendFilterButtons() {
     const tableColumn = classNames.find((c) => c.startsWith("column-"));
     const columnName = tableColumn.split("-")[1];
 
+    // Append copy button
+    var copyButton = document.createElement("button");
+    copyButton.className = "btn-secondary";
+    copyButton.innerHTML = "Copy";
+    col.prepend(copyButton);
+
+    copyButton.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      var valueCols = document.querySelectorAll(
+        `#result_list tbody .field-${columnName}`
+      );
+      var values = [];
+      valueCols.forEach(function (el) {
+        values.push(el.textContent);
+      });
+
+      navigator.clipboard.writeText(values.join("\n"));
+
+      copyButton.innerHTML = "Copied";
+      setTimeout(() => {
+        copyButton.innerHTML = "Copy";
+      }, 500);
+    });
+
     var button = document.createElement("button");
     button.className = "filter";
     button.innerHTML = columnName;

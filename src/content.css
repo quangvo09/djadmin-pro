@@ -69,7 +69,15 @@ body:not(.dark-mode) .filter-column {
   color: #151617 !important;
 }
 body:not(.dark-mode) .btn-secondary {
+  cursor: pointer;
+  padding: 4px 6px !important;
+  border-radius: 5px;
+  border: none;
+  color: white;
   background-color: #80b2da !important;
+}
+body:not(.dark-mode) .btn-secondary:hover {
+  background-color: #71a5cf !important;
 }
 body.dark-mode {
   background-color: #161719 !important;
