@@ -70,7 +70,7 @@ body:not(.dark-mode) .filter-column {
 }
 body:not(.dark-mode) .btn-secondary {
   cursor: pointer;
-  padding: 4px 6px !important;
+  padding: 4px 6px;
   border-radius: 5px;
   border: none;
   color: white;
