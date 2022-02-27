@@ -301,7 +301,12 @@ function appendFilterButtons() {
       );
       var values = [];
       valueCols.forEach(function (el) {
-        values.push(el.textContent);
+        let content = el.textContent;
+        if (el.children[0]?.tagName?.toLocaleLowerCase() === "a") {
+          content = content.replace(/\w+\s?\((\d+)\)/, "$1");
+        }
+
+        values.push(content);
       });
 
       navigator.clipboard.writeText(values.join("\n"));
