@@ -139,7 +139,7 @@ if [ ! -z "$NEW_VERSION" ]; then
   echo -e "$PUSHING_MSG"
   echo $INPUT_STRING >VERSION
   # Create build file
-  zip -c ../src >"./dist/chrome-djadmin-pro-$NEW_VERSION.zip"
+  zip -r "./dist/chrome-djadmin-pro-$NEW_VERSION.zip" src
   # Commit + Pushing
   git add CHANGELOG.md VERSION PR.md dist/* scripts/* >/dev/null 2>&1
   git commit -m "Bump version to ${INPUT_STRING}." >/dev/null 2>&1
