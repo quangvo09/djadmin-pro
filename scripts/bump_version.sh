@@ -141,7 +141,7 @@ if [ ! -z "$NEW_VERSION" ]; then
   # Create build file
   zip -r "./dist/chrome-djadmin-pro-$NEW_VERSION.zip" src
   # Commit + Pushing
-  git add CHANGELOG.md VERSION PR.md dist/* scripts/* >/dev/null 2>&1
+  git add . >/dev/null 2>&1
   git commit -m "Bump version to ${INPUT_STRING}." >/dev/null 2>&1
   git tag -a -m "Tag version ${INPUT_STRING}." "v$INPUT_STRING" >/dev/null 2>&1
   git push origin "${BRANCH}" --tags >/dev/null 2>&1
