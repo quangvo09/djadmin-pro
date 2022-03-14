@@ -141,7 +141,7 @@ if [ ! -z "$NEW_VERSION" ]; then
   # Create build file
   cp -a src/ "chrome-djadmin-pro-$NEW_VERSION/"
   zip -r "./dist/chrome-djadmin-pro-$NEW_VERSION.zip" "./chrome-djadmin-pro-$NEW_VERSION"
-  rm -f "chrome-djadmin-pro-$NEW_VERSION"
+  rm -r -f "chrome-djadmin-pro-$NEW_VERSION"
   # Commit + Pushing
   git add . >/dev/null 2>&1
   git commit -m "Bump version to ${INPUT_STRING}." >/dev/null 2>&1
