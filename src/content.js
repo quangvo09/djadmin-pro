@@ -24,7 +24,7 @@ function applyFilter(searchParams, columnName) {
         searchParams.set(`${columnName}__regex`, `^\s*$`);
         return true;
       } else if (value === "False") {
-        searchParams.set(`${columnName}__regex`, `\S`);
+        searchParams.set(`${columnName}__regex`, `\\S`);
         return true;
       }
 
