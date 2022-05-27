@@ -10,9 +10,10 @@
         "nice-select2.js",
         "content.js",
         "searchTable.js",
-        "injects/inject-app-list.js"
+          "injects/inject-app-list.js",
+          "djquery.js"
       ],
-      "css": ["nice-select2.css", "content.css"],
+      "css": ["nice-select2.css", "content.css", "djquery.css"],
       "matches": [
         "https://dev-djadmin.onpoint.vn/*",
         "https://djadmin.onpoint.vn/*",
