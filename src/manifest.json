@@ -1,24 +1,26 @@
 {
   "name": "Djadmin Pro",
   "manifest_version": 2,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Help you to like a Pro",
   "content_scripts": [
     {
       "js": [
-        "similarity.js",
+        "fuzzy.js",
         "nice-select2.js",
         "content.js",
         "searchTable.js",
-          "injects/inject-app-list.js",
-          "djquery.js"
+        "injects/inject-app-list.js",
+        "djquery.js"
       ],
       "css": ["nice-select2.css", "content.css", "djquery.css"],
       "matches": [
         "https://dev-djadmin.onpoint.vn/*",
         "https://djadmin.onpoint.vn/*",
         "https://stg-djadmin.onpoint.vn/*",
-        "https://uat-djadmin.onpoint.vn/*"
+        "https://uat-djadmin.onpoint.vn/*",
+        "https://dev-gddjadmin.onpoint.vn/*",
+        "https://gddjadmin.onpoint.vn/*"
       ]
     }
   ],

@@ -297,7 +297,7 @@ function appendFilterButtons() {
       event.preventDefault();
 
       var valueCols = document.querySelectorAll(
-        `#result_list tbody .field-${columnName}`
+        `#result_list tbody .field-${columnName}`,
       );
       var values = [];
       valueCols.forEach(function (el) {
@@ -380,6 +380,7 @@ function bindingHotkey() {
 }
 
 /// BOOTSTRAP \\\
+console.log("Bootstraping...");
 appendModal();
 appendFilterButtons();
 bindingHotkey();
