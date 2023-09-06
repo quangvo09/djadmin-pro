@@ -1,3 +1,4 @@
+import fuzzy from "./fuzzy.js";
 // utility functions
 function triggerEvent(el, event) {
   if (!event) {
@@ -484,7 +485,7 @@ NiceSelect.prototype._sortBySimilarity = function (text) {
   } else {
     let list = this.options.map((item) => {
       return {
-        similarity: score(text, item.data.text.toLowerCase()),
+        similarity: fuzzy.score(text, item.data.text.toLowerCase()),
         option: item,
       };
     });
@@ -501,3 +502,4 @@ NiceSelect.prototype._sortBySimilarity = function (text) {
     });
   }
 };
+window.NiceSelect = NiceSelect;

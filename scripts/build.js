@@ -38,7 +38,6 @@ let opts = {
     "src/content.js",
     "src/searchTable.js",
     "src/djquery.js",
-    "src/fuzzy.js",
     "src/content.css",
     "src/djquery.css",
   ],

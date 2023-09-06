@@ -1,12 +1,11 @@
 {
   "name": "djquery",
   "version": "1.0.0",
-  "description": "Djadmin query command",
+  "description": "Djadmin query tool helpers",
   "main": "index.js",
   "author": "bluzky",
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node scripts/build.js --build",
     "watch": "node scripts/build.js --watch"
   },
