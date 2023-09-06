@@ -10,7 +10,6 @@
         "nice-select2.js",
         "content.js",
         "searchTable.js",
-        "injects/inject-app-list.js",
         "djquery.js"
       ],
       "css": ["nice-select2.css", "content.css", "djquery.css"],
@@ -30,8 +29,8 @@
   "permissions": ["contextMenus", "tabs", "storage"],
   "web_accessible_resources": ["*.html"],
   "icons": {
-    "32": "img/icon32.png",
-    "48": "img/icon48.png",
-    "96": "img/icon96.png"
+    "32": "static/icon32.png",
+    "48": "static/icon48.png",
+    "96": "static/icon96.png"
   }
 }
