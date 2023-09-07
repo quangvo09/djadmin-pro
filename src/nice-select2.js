@@ -399,11 +399,10 @@ NiceSelect.prototype._onKeyPressed = function (e) {
       }
     }
     e.preventDefault();
-  } else if ((e.keyCode == 27 || (e.ctrlKey && e.key == "g")) && open) {
+  } else if (e.keyCode == 27 && open) {
     // Esc
     triggerEvent(this.dropdown);
     e.preventDefault();
-    e.stopPropagation();
   }
   return false;
 };

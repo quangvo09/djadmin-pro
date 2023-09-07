@@ -32,7 +32,6 @@ const plugins = [
 
 let opts = {
   entryPoints: [
-    "src/background.js",
     "src/nice-select2.js",
     "src/nice-select2.css",
     "src/content.js",
