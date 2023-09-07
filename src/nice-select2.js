@@ -1,3 +1,4 @@
+import "./nice-select2.css";
 import fuzzy from "./fuzzy.js";
 // utility functions
 function triggerEvent(el, event) {
