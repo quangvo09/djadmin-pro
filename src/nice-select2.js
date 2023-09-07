@@ -367,7 +367,7 @@ NiceSelect.prototype._onKeyPressed = function (e) {
     } else {
       triggerEvent(this.dropdown);
     }
-  } else if (e.keyCode == 40) {
+  } else if (e.keyCode == 40 || (e.ctrlKey && e.key == "n")) {
     // Down
     if (!open) {
       triggerEvent(this.dropdown);
@@ -383,7 +383,7 @@ NiceSelect.prototype._onKeyPressed = function (e) {
       }
     }
     e.preventDefault();
-  } else if (e.keyCode == 38) {
+  } else if (e.keyCode == 38 || (e.ctrlKey && e.key == "p")) {
     // Up
     if (!open) {
       triggerEvent(this.dropdown);
@@ -399,9 +399,11 @@ NiceSelect.prototype._onKeyPressed = function (e) {
       }
     }
     e.preventDefault();
-  } else if (e.keyCode == 27 && open) {
+  } else if ((e.keyCode == 27 || (e.ctrlKey && e.key == "g")) && open) {
     // Esc
     triggerEvent(this.dropdown);
+    e.preventDefault();
+    e.stopPropagation();
   }
   return false;
 };

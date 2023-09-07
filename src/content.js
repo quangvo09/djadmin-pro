@@ -1,8 +1,9 @@
 var currentTab = "match";
 var selectInstance = null;
+var filters = [];
 
-function applyFilter(searchParams, columnName) {
-  const dialog = document.querySelector("dialog");
+function collectFilter(columnName) {
+  const dialog = document.querySelector("#filter-modal");
 
   switch (currentTab) {
     case "null": {
@@ -10,25 +11,21 @@ function applyFilter(searchParams, columnName) {
       const value = Array.from(radioButtons).find((r) => r.checked)?.value;
 
       if (value) {
-        searchParams.set(`${columnName}__isnull`, value);
-        return true;
+        filters.push([columnName, "isnull", value]);
       }
-
-      return false;
+      break;
     }
     case "empty": {
       const radioButtons = document.getElementsByName("filter-empty");
       const value = Array.from(radioButtons).find((r) => r.checked)?.value;
 
       if (value === "True") {
-        searchParams.set(`${columnName}__regex`, `^\s*$`);
-        return true;
+        filters.push([columnName, "regex", `^\s*$`]);
       } else if (value === "False") {
-        searchParams.set(`${columnName}__regex`, `\\S`);
-        return true;
+        filters.push([columnName, "regex", `\\S`]);
       }
 
-      return false;
+      break;
     }
     case "match": {
       const value = dialog.querySelector(".filter-box").value?.trim();
@@ -39,16 +36,13 @@ function applyFilter(searchParams, columnName) {
         .filter((code) => code.length > 0);
 
       if (values.length > 1) {
-        searchParams.set(`${columnName}__in`, values.join(","));
-        return true;
+        filters.push([columnName, "in", values.join(",")]);
       }
 
       if (value.length > 0) {
-        searchParams.set(columnName, value);
-        return true;
+        filters.push([columnName, null, values]);
       }
-
-      return false;
+      break;
     }
     case "string": {
       const radioButtons = document.getElementsByName("filter-string");
@@ -56,11 +50,9 @@ function applyFilter(searchParams, columnName) {
       const value = dialog.querySelector(".string-query-box").value?.trim();
 
       if (value?.length > 1 && operator?.length > 0) {
-        searchParams.set(`${columnName}__${operator}`, value);
-        return true;
+        filters.push([columnName, operator, value]);
       }
-
-      return false;
+      break;
     }
     case "datetime": {
       const radioButtons = document.getElementsByName("filter-datetime");
@@ -75,20 +67,29 @@ function applyFilter(searchParams, columnName) {
         const hour = `${localDate.getUTCHours()}`.padStart(2, "0");
         const minute = `${localDate.getUTCMinutes()}`.padStart(2, "0");
         const dateString = `${year}-${month}-${day} ${hour}:${minute}`;
-        searchParams.set(`${columnName}__${operator}`, dateString);
-        return true;
+        filters.push([columnName, operator, dateString]);
       }
 
-      return false;
+      break;
     }
     default:
       return false;
   }
 }
 
-function openTab(evt, key) {
-  currentTab = key;
+function compileFilter(searchParams) {
+  console.log("compileFilter", filters);
+  filters.forEach((filter) => {
+    const [columnName, operator, value] = filter;
+    if (operator) {
+      searchParams.set(`${columnName}__${operator}`, value);
+    } else {
+      searchParams.set(columnName, value);
+    }
+  });
+}
 
+function openTab(tabId) {
   // Get all elements with class="tab-content" and hide them
   const tabContents = document.getElementsByClassName("tab-content");
   for (let i = 0; i < tabContents.length; i++) {
@@ -102,8 +103,8 @@ function openTab(evt, key) {
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(key).style.display = "block";
-  evt.currentTarget.className += " active";
+  document.getElementById(tabId).style.display = "block";
+  document.querySelector(`.tab-links[target=${tabId}]`).className += " active";
 }
 
 function setFilter() {
@@ -111,36 +112,33 @@ function setFilter() {
   const columnName = element.value;
 
   if ("URLSearchParams" in window) {
-    const searchParams = new URLSearchParams();
-    const isApplied = applyFilter(searchParams, columnName);
-    if (isApplied) {
+    collectFilter(columnName);
+    if (filters.length > 0) {
+      const searchParams = new URLSearchParams();
+      compileFilter(searchParams);
       window.location.search = searchParams.toString();
     }
   }
 }
 
 function appendFilter() {
+  const dialog = document.querySelector("#filter-modal");
   const element = document.getElementById("table-columns");
   const columnName = element.value;
 
   if ("URLSearchParams" in window) {
-    const prevSearchParams = new URLSearchParams(window.location.search);
-    const searchParams = new URLSearchParams();
-    prevSearchParams.forEach((value, key) => {
-      if (!key.startsWith(`${columnName}__`)) {
-        searchParams.set(key, value);
-      }
-    });
-
-    const isApplied = applyFilter(searchParams, columnName);
-    if (isApplied) {
-      window.location.search = searchParams.toString();
-    }
+    collectFilter(columnName);
   }
+
+  openTab("match");
+  dialog.querySelector(".filter-box").value = "";
+  selectInstance.clear();
+  selectInstance.focus();
 }
 
 function appendModal() {
   const modal = document.createElement("dialog");
+  modal.id = "filter-modal";
   modal.className = "filter";
   var columns = document.querySelectorAll("#result_list th.sortable");
 
@@ -239,9 +237,9 @@ function appendModal() {
   const els = dialog.querySelectorAll(".tab-links");
 
   for (let i = 0; i < els.length; i++) {
-    els[i].addEventListener("click", (event) => {
+    els[i].addEventListener("click", (_event) => {
       const target = els[i].getAttribute("target");
-      openTab(event, target);
+      openTab(target);
     });
   }
 
@@ -358,6 +356,10 @@ function bindFilterApply() {
     if (event.shiftKey && event.keyCode == 13) {
       appendFilter();
       event.preventDefault();
+    }
+
+    if (event.ctrlKey && event.key == "g") {
+      dialog.close();
     }
   });
 }
