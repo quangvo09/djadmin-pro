@@ -1,36 +1,52 @@
 {
-  "name": "Djadmin Pro",
-  "manifest_version": 2,
-  "version": "1.2.0",
-  "description": "Help you to like a Pro",
-  "content_scripts": [
-    {
-      "js": [
-        "fuzzy.js",
-        "nice-select2.js",
-        "content.js",
-        "searchTable.js",
-        "djquery.js"
-      ],
-      "css": ["nice-select2.css", "content.css", "djquery.css"],
-      "matches": [
-        "https://dev-djadmin.onpoint.vn/*",
-        "https://djadmin.onpoint.vn/*",
-        "https://stg-djadmin.onpoint.vn/*",
-        "https://uat-djadmin.onpoint.vn/*",
-        "https://dev-gddjadmin.onpoint.vn/*",
-        "https://gddjadmin.onpoint.vn/*"
-      ]
+    "name": "Djadmin Pro",
+    "manifest_version": 2,
+    "version": "1.5.0",
+    "description": "Help you to like a Pro",
+    "content_scripts": [
+        {
+            "js": [
+                "fuzzy.js",
+                "nice-select2.js",
+                "content.js",
+                "searchTable.js"
+            ],
+            "css": [
+                "nice-select2.css",
+                "content.css"
+            ],
+            "matches": [
+                "https://dev-djadmin.onpoint.vn/*",
+                "https://djadmin.onpoint.vn/*",
+                "https://stg-djadmin.onpoint.vn/*",
+                "https://uat-djadmin.onpoint.vn/*",
+                "https://dev-gddjadmin.onpoint.vn/*",
+                "https://gddjadmin.onpoint.vn/*"
+            ]
+        }
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "permissions": [
+        "contextMenus",
+        "tabs",
+        "storage"
+    ],
+    "web_accessible_resources": [
+        "*.html"
+    ],
+    "icons": {
+        "32": "static/icon32.png",
+        "48": "static/icon48.png",
+        "96": "static/icon96.png"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{14cad338-58f9-4b6d-9f2c-3a5a133564f8}",
+            "strict_min_version": "42.0"
+        }
     }
-  ],
-  "background": {
-    "scripts": ["background.js"]
-  },
-  "permissions": ["contextMenus", "tabs", "storage"],
-  "web_accessible_resources": ["*.html"],
-  "icons": {
-    "32": "static/icon32.png",
-    "48": "static/icon48.png",
-    "96": "static/icon96.png"
-  }
 }
