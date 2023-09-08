@@ -1,6 +1,8 @@
+import "./content.css";
 var currentTab = "match";
 var selectInstance = null;
 var filters = [];
+var columnNames = [];
 
 function collectFilter(columnName) {
   const dialog = document.querySelector("#filter-modal");
@@ -284,6 +286,7 @@ function appendFilterButtons() {
     const classNames = col.className.split(" ");
     const tableColumn = classNames.find((c) => c.startsWith("column-"));
     const columnName = tableColumn.split("-")[1];
+    columnNames.push(columnName);
 
     // Append copy button
     var copyButton = document.createElement("button");
@@ -381,9 +384,67 @@ function bindingHotkey() {
   bindFilterApply();
 }
 
+import DetailView from "./DetailView.svelte";
+const detailDialog = document.createElement("dialog");
+let detailViewInstance = null;
+// Inject html model
+function injectViewDialog() {
+  detailDialog.id = "view-modal";
+  detailDialog.style = "width: 80%; height: 80%;";
+  detailDialog.innerHTML = `
+<div class="close-container">
+      <button class="close">x</button>
+    </div>
+    <div class="modal-content">
+</div>
+`;
+
+  document.body.appendChild(detailDialog);
+  detailDialog.querySelector("button.close").addEventListener("click", () => {
+    detailDialog.close();
+  });
+
+  try {
+    detailViewInstance = new DetailView({
+      target: document.querySelector("#view-modal .modal-content"),
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+function injectViewButtons() {
+  document.querySelectorAll("#result_list tbody tr").forEach(function (el) {
+    const viewButton = document.createElement("a");
+    viewButton.className = "view-link";
+    viewButton.innerHTML = "View";
+    el.childNodes[1].appendChild(viewButton);
+    viewButton.addEventListener("click", function (event) {
+      // show modal
+      const values = [];
+      el.childNodes.forEach(function (node, index) {
+        if (index > 0) {
+          values.push(node.childNodes[0].textContent);
+        }
+      });
+
+      const columns = [];
+
+      columnNames.forEach(function (columnName, index) {
+        columns.push({ name: columnName, value: values[index] });
+      });
+      detailDialog.showModal();
+      detailViewInstance.setColumns(columns);
+      event.preventDefault();
+    });
+  });
+}
+
 /// BOOTSTRAP \\\
 console.log("Bootstraping...");
 appendModal();
 appendFilterButtons();
 bindingHotkey();
+injectViewDialog();
+injectViewButtons();
 cleanDecimalValue();

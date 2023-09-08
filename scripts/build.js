@@ -1,6 +1,7 @@
 const esbuild = require("esbuild");
 const sassPlugin = require("esbuild-plugin-sass");
 const sveltePlugin = require("esbuild-svelte");
+const postCssPlugin = require("esbuild-style-plugin");
 const { copy } = require("esbuild-plugin-copy");
 
 const args = process.argv.slice(2);
@@ -9,6 +10,11 @@ const deploy = args.includes("--build");
 
 const plugins = [
   sassPlugin(),
+  postCssPlugin({
+    postcss: {
+      plugins: [require("tailwindcss"), require("autoprefixer")],
+    },
+  }),
   sveltePlugin({
     mainFields: ["svelte", "browser", "module", "main"],
   }),
@@ -33,10 +39,10 @@ const plugins = [
 let opts = {
   entryPoints: [
     "src/nice-select2.js",
-    "src/nice-select2.css",
+    // "src/nice-select2.css",
     "src/content.js",
     "src/searchTable.js",
-    "src/content.css",
+    // "src/content.css",
   ],
   bundle: true,
   minify: false,
