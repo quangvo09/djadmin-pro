@@ -384,9 +384,13 @@ function bindingHotkey() {
   bindFilterApply();
 }
 
+import DetailView from "./DetailView.svelte";
 const detailDialog = document.createElement("dialog");
+let detailViewInstance = null;
+// Inject html model
 function injectViewDialog() {
   detailDialog.id = "view-modal";
+  detailDialog.style = "width: 80%; height: 80%;";
   detailDialog.innerHTML = `
 <div class="close-container">
       <button class="close">x</button>
@@ -394,10 +398,19 @@ function injectViewDialog() {
     <div class="modal-content">
 </div>
 `;
+
   document.body.appendChild(detailDialog);
   detailDialog.querySelector("button.close").addEventListener("click", () => {
     detailDialog.close();
   });
+
+  try {
+    detailViewInstance = new DetailView({
+      target: document.querySelector("#view-modal .modal-content"),
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function injectViewButtons() {
@@ -415,14 +428,13 @@ function injectViewButtons() {
         }
       });
 
-      let tableHtml = "";
+      const columns = [];
+
       columnNames.forEach(function (columnName, index) {
-        tableHtml += `<tr><th>${columnName}</th><td>${values[index]}</td></tr>`;
+        columns.push({ name: columnName, value: values[index] });
       });
-      detailDialog.querySelector(
-        ".modal-content",
-      ).innerHTML = `<table width="100%">${tableHtml}</table>`;
       detailDialog.showModal();
+      detailViewInstance.setColumns(columns);
       event.preventDefault();
     });
   });
