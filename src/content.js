@@ -413,30 +413,49 @@ function injectViewDialog() {
   }
 }
 
+function showRowDetail(event) {
+  // show modal
+  const values = [];
+  const el = event.target.closest("tr");
+  console.log(el);
+  el.childNodes.forEach(function (node, index) {
+    if (index > 0) {
+      if (node.childNodes.length > 0) {
+        values.push(node.childNodes[0].textContent);
+      } else {
+        values.push(node.textContent);
+      }
+    }
+  });
+
+  const columns = [];
+
+  columnNames.forEach(function (columnName, index) {
+    columns.push({ name: columnName, value: values[index] });
+  });
+
+  detailDialog.showModal();
+  detailViewInstance.setColumns(columns);
+  event.preventDefault();
+}
+
 function injectViewButtons() {
   document.querySelectorAll("#result_list tbody tr").forEach(function (el) {
+    const buttonGroup = document.createElement("div");
+    buttonGroup.className = "action-buttons";
+
     const viewButton = document.createElement("a");
     viewButton.className = "view-link";
     viewButton.innerHTML = "View";
-    el.childNodes[1].appendChild(viewButton);
-    viewButton.addEventListener("click", function (event) {
-      // show modal
-      const values = [];
-      el.childNodes.forEach(function (node, index) {
-        if (index > 0) {
-          values.push(node.childNodes[0].textContent);
-        }
-      });
+    viewButton.addEventListener("click", showRowDetail);
 
-      const columns = [];
-
-      columnNames.forEach(function (columnName, index) {
-        columns.push({ name: columnName, value: values[index] });
-      });
-      detailDialog.showModal();
-      detailViewInstance.setColumns(columns);
-      event.preventDefault();
-    });
+    const editButton = document.createElement("a");
+    editButton.className = "edit-link";
+    editButton.innerHTML = "Edit";
+    editButton.href = el.childNodes[1].querySelector("a").href;
+    buttonGroup.appendChild(viewButton);
+    buttonGroup.appendChild(editButton);
+    el.childNodes[1].appendChild(buttonGroup);
   });
 }
 

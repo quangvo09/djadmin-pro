@@ -1,7 +1,7 @@
 {
     "name": "Djadmin Pro",
     "manifest_version": 2,
-    "version": "1.5.0",
+    "version": "1.6.1",
     "description": "Help you to like a Pro",
     "content_scripts": [
         {
@@ -40,7 +40,7 @@
     "browser_specific_settings": {
         "gecko": {
             "id": "{14cad338-58f9-4b6d-9f2c-3a5a133564f8}",
-            "strict_min_version": "42.0"
+            "strict_min_version": "82.0"
         }
     }
 }

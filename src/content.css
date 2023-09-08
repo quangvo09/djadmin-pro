@@ -245,9 +245,24 @@ p {
   color: #999;
 }
 
-.view-link{
-    color: orange;
-    font-size: 0.85rem;
-    display: block;
+.action-buttons{
+    margin-top: 8px;
+    display: flex;
+}
+
+.action-buttons a{
+    display: inline-block;
+    padding: 3px 8px;
+    margin-right: 5px;
+    color: #333;
+    font-size: 11px;
     font-weight: 400;
+
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.action-buttons a:hover{
+    background-color: #eee;
 }
