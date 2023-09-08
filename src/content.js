@@ -106,6 +106,7 @@ function openTab(tabId) {
 
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabId).style.display = "block";
+  currentTab = tabId;
   document.querySelector(`.tab-links[target=${tabId}]`).className += " active";
 }
 
@@ -326,9 +327,6 @@ function appendFilterButtons() {
     button.addEventListener("click", function (event) {
       event.preventDefault();
       showModal(columnName);
-      setTimeout(() => {
-        dialog.querySelector(".filter-box").focus();
-      }, 300);
     });
   });
 }
