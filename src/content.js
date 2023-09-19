@@ -39,6 +39,7 @@ function collectFilter(columnName) {
 
       if (values.length > 1) {
         filters.push([columnName, "in", values.join(",")]);
+        break;
       }
 
       if (value.length > 0) {
