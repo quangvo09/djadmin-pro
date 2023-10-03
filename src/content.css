@@ -266,3 +266,18 @@ p {
 .action-buttons a:hover{
     background-color: #eee;
 }
+
+.btn-copy{
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    color: #888; width: 20px; height: 20px; display: inline-block;
+    cursor: pointer;
+}
+
+td:hover .btn-copy{
+    opacity: 1;
+}
+
+td.copyable{
+    cursor: pointer;
+}

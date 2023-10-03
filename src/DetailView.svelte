@@ -25,7 +25,7 @@
         {#if column.name.includes(keyword)}
           <tr>
             <th>{column.name}</th>
-            <td>{column.value}</td>
+            <td>{@html column.value.outerHTML || column.value.textContent}</td>
           </tr>
         {/if}
       {/each}

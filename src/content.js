@@ -3,6 +3,7 @@ var currentTab = "match";
 var selectInstance = null;
 var filters = [];
 var columnNames = [];
+var selectedColumns = [];
 
 function collectFilter(columnName) {
   const dialog = document.querySelector("#filter-modal");
@@ -153,6 +154,7 @@ function appendModal() {
     const columnName = tableColumn.split("-")[1];
     columnNames.push(columnName);
   });
+  selectedColumns = columnNames;
 
   columnNames.sort();
 
@@ -330,6 +332,18 @@ function appendFilterButtons() {
       showModal(columnName);
     });
   });
+
+  const node = document.querySelector("#result_list th.action-checkbox-column");
+  const filterButton = document.createElement("button");
+
+  filterButton.className = "btn-secondary";
+  filterButton.innerHTML = "Filter";
+  node.prepend(filterButton);
+
+  filterButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    showColumnPicker();
+  });
 }
 
 function bindSearchField() {
@@ -384,8 +398,12 @@ function bindingHotkey() {
 }
 
 import DetailView from "./DetailView.svelte";
+import ColumnPicker from "./ColumnPicker.svelte";
+
 const detailDialog = document.createElement("dialog");
+const columnPickerDialog = document.createElement("dialog");
 let detailViewInstance = null;
+let columnPickerInstance = null;
 // Inject html model
 function injectViewDialog() {
   detailDialog.id = "view-modal";
@@ -412,6 +430,41 @@ function injectViewDialog() {
   }
 }
 
+function injectColumnPickerDialog() {
+  columnPickerDialog.id = "column-picker-modal";
+  columnPickerDialog.style = "width: 80%; height: 80%;";
+  columnPickerDialog.innerHTML = `
+<div class="close-container">
+      <button class="close">x</button>
+    </div>
+    <div class="modal-content">
+</div>
+`;
+
+  document.body.appendChild(columnPickerDialog);
+  columnPickerDialog
+    .querySelector("button.close")
+    .addEventListener("click", () => {
+      columnPickerDialog.close();
+    });
+
+  try {
+    columnPickerInstance = new ColumnPicker({
+      target: document.querySelector("#column-picker-modal .modal-content"),
+      props: {
+        columns: [...columnNames].sort(),
+        applyFilter: function (columns) {
+          columnPickerDialog.close();
+          selectedColumns = columns;
+          hideColumns();
+        },
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 function showRowDetail(event) {
   // show modal
   const values = [];
@@ -420,9 +473,9 @@ function showRowDetail(event) {
   el.childNodes.forEach(function (node, index) {
     if (index > 0) {
       if (node.childNodes.length > 0) {
-        values.push(node.childNodes[0].textContent);
+        values.push(node.childNodes[0]);
       } else {
-        values.push(node.textContent);
+        values.push(node);
       }
     }
   });
@@ -436,6 +489,10 @@ function showRowDetail(event) {
   detailDialog.showModal();
   detailViewInstance.setColumns(columns);
   event.preventDefault();
+}
+
+function showColumnPicker() {
+  columnPickerDialog.showModal();
 }
 
 function injectViewButtons() {
@@ -458,6 +515,32 @@ function injectViewButtons() {
   });
 }
 
+function hideColumns() {
+  const hiddenColumns = columnNames.filter(function (columnName) {
+    return !selectedColumns.includes(columnName);
+  });
+
+  hiddenColumns.forEach(function (columnName) {
+    document
+      .querySelectorAll(`#result_list td.field-${columnName}`)
+      .forEach(function (el) {
+        el.style.display = "none";
+      });
+
+    document
+      .querySelectorAll(`#result_list th.field-${columnName}`)
+      .forEach(function (el) {
+        el.style.display = "none";
+      });
+
+    document
+      .querySelectorAll(`#result_list th.column-${columnName}`)
+      .forEach(function (el) {
+        el.style.display = "none";
+      });
+  });
+}
+
 /// BOOTSTRAP \\\
 console.log("Bootstraping...");
 appendModal();
@@ -465,4 +548,6 @@ appendFilterButtons();
 bindingHotkey();
 injectViewDialog();
 injectViewButtons();
+injectColumnPickerDialog();
 cleanDecimalValue();
+hideColumns();
