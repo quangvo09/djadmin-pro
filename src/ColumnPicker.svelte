@@ -3,7 +3,7 @@
 <script>
   export let columns = [];
   export let applyFilter;
-  let selectedColumns = [];
+  export let selectedColumns = [];
   let checkedAll = false;
   let keyword = "";
 

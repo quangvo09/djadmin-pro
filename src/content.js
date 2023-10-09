@@ -154,7 +154,6 @@ function appendModal() {
     const columnName = tableColumn.split("-")[1];
     columnNames.push(columnName);
   });
-  selectedColumns = columnNames;
 
   columnNames.sort();
 
@@ -453,10 +452,14 @@ function injectColumnPickerDialog() {
       target: document.querySelector("#column-picker-modal .modal-content"),
       props: {
         columns: [...columnNames].sort(),
+        selectedColumns: selectedColumns,
         applyFilter: function (columns) {
           columnPickerDialog.close();
+          browser.storage.local.set({
+            selectedColumns: JSON.stringify(columns),
+          });
           selectedColumns = columns;
-          hideColumns();
+          renderColumns();
         },
       },
     });
@@ -515,30 +518,37 @@ function injectViewButtons() {
   });
 }
 
-function hideColumns() {
-  const hiddenColumns = columnNames.filter(function (columnName) {
-    return !selectedColumns.includes(columnName);
+// render table columns based on selected columns
+function renderColumns() {
+  columnNames.forEach(function (columnName) {
+    if (selectedColumns.includes(columnName)) {
+      setColumnVisible(columnName, true);
+    } else {
+      setColumnVisible(columnName, false);
+    }
   });
+}
 
-  hiddenColumns.forEach(function (columnName) {
-    document
-      .querySelectorAll(`#result_list td.field-${columnName}`)
-      .forEach(function (el) {
-        el.style.display = "none";
-      });
+// show/hide column
+function setColumnVisible(columnName, visible) {
+  let display = visible ? "" : "none";
+  document
+    .querySelectorAll(`#result_list td.field-${columnName}`)
+    .forEach(function (el) {
+      el.style.display = display;
+    });
 
-    document
-      .querySelectorAll(`#result_list th.field-${columnName}`)
-      .forEach(function (el) {
-        el.style.display = "none";
-      });
+  document
+    .querySelectorAll(`#result_list th.field-${columnName}`)
+    .forEach(function (el) {
+      el.style.display = display;
+    });
 
-    document
-      .querySelectorAll(`#result_list th.column-${columnName}`)
-      .forEach(function (el) {
-        el.style.display = "none";
-      });
-  });
+  document
+    .querySelectorAll(`#result_list th.column-${columnName}`)
+    .forEach(function (el) {
+      el.style.display = display;
+    });
 }
 
 /// BOOTSTRAP \\\
@@ -548,6 +558,14 @@ appendFilterButtons();
 bindingHotkey();
 injectViewDialog();
 injectViewButtons();
-injectColumnPickerDialog();
 cleanDecimalValue();
-hideColumns();
+
+browser.storage.local.get("selectedColumns").then((data) => {
+  if (data.selectedColumns) {
+    selectedColumns = JSON.parse(data.selectedColumns);
+    renderColumns();
+  } else {
+    selectedColumns = columnNames;
+  }
+  injectColumnPickerDialog();
+});
