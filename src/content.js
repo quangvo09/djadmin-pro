@@ -4,6 +4,7 @@ var selectInstance = null;
 var filters = [];
 var columnNames = [];
 var selectedColumns = [];
+var localSettings = {};
 
 function collectFilter(columnName) {
   const dialog = document.querySelector("#filter-modal");
@@ -82,7 +83,6 @@ function collectFilter(columnName) {
 }
 
 function compileFilter(searchParams) {
-  console.log("compileFilter", filters);
   filters.forEach((filter) => {
     const [columnName, operator, value] = filter;
     if (operator) {
@@ -347,10 +347,26 @@ function appendFilterButtons() {
 
 function bindSearchField() {
   document.addEventListener("keydown", function (event) {
-    if (
-      (event.ctrlKey && event.key === "j") ||
-      (event.shiftKey && event.altKey && event.key === "p")
-    ) {
+    if (event.ctrlKey && event.key === "j") {
+      filters = [];
+      showModal(null, false);
+      setTimeout(() => {
+        selectInstance.focus();
+      }, 300);
+    }
+
+    if (event.ctrlKey && event.key === "k") {
+      filters = [];
+      const searchParams = new URLSearchParams(window.location.search);
+      for (const [key, value] of searchParams) {
+        const parts = key.split("__");
+        let operator = null;
+        if (parts.length > 1) {
+          operator = parts[parts.length - 1];
+        }
+
+        filters.push([parts[0], operator, value]);
+      }
       showModal(null, false);
       setTimeout(() => {
         selectInstance.focus();
@@ -455,9 +471,11 @@ function injectColumnPickerDialog() {
         selectedColumns: selectedColumns,
         applyFilter: function (columns) {
           columnPickerDialog.close();
+          localSettings[window.location.pathname] = columns;
           browser.storage.local.set({
-            selectedColumns: JSON.stringify(columns),
+            selectedColumns: JSON.stringify(localSettings),
           });
+
           selectedColumns = columns;
           renderColumns();
         },
@@ -562,7 +580,9 @@ cleanDecimalValue();
 
 browser.storage.local.get("selectedColumns").then((data) => {
   if (data.selectedColumns) {
-    selectedColumns = JSON.parse(data.selectedColumns);
+    const key = window.location.pathname;
+    localSettings = JSON.parse(data.selectedColumns);
+    selectedColumns = localSettings[key] || columnNames;
     renderColumns();
   } else {
     selectedColumns = columnNames;

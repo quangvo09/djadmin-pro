@@ -1,7 +1,7 @@
 {
     "name": "Djadmin Pro",
     "manifest_version": 2,
-    "version": "1.6.3",
+    "version": "1.7.0",
     "description": "Help you to like a Pro",
     "content_scripts": [
         {
@@ -15,7 +15,12 @@
                 "content.css"
             ],
             "matches": [
-                "https://*.onpoint.vn/*"
+                "https://dev-djadmin.onpoint.vn/*",
+                "https://djadmin.onpoint.vn/*",
+                "https://stg-djadmin.onpoint.vn/*",
+                "https://uat-djadmin.onpoint.vn/*",
+                "https://dev-gddjadmin.onpoint.vn/*",
+                "https://gddjadmin.onpoint.vn/*"
             ]
         }
     ],
