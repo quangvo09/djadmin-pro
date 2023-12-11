@@ -38,6 +38,7 @@ body:not(.dark-mode) .close:focus {
 dialog{
     border: transparent;
     color: #888;
+    position: relative;
 }
 body:not(.dark-mode) dialog {
   min-width: 427px;

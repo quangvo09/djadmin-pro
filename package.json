@@ -13,6 +13,7 @@
     "esbuild": "^0.19.2",
     "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-sass": "^1.0.1",
+    "svelte-json-tree": "^2.2.0",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {

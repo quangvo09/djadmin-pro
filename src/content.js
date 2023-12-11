@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-var
 import "./content.css";
 var currentTab = "match";
 var selectInstance = null;
@@ -6,10 +7,14 @@ var columnNames = [];
 var selectedColumns = [];
 var localSettings = {};
 
+if (typeof chrome !== 'undefined') {
+  browser = chrome;
+}
+
 function collectFilter(columnName) {
   const dialog = document.querySelector("#filter-modal");
-
   switch (currentTab) {
+
     case "null": {
       const radioButtons = document.getElementsByName("filter-null");
       const value = Array.from(radioButtons).find((r) => r.checked)?.value;
@@ -148,7 +153,7 @@ function appendModal() {
   var columns = document.querySelectorAll("#result_list th.sortable");
 
   const columnNames = [];
-  columns.forEach(function (col) {
+  columns.forEach(function(col) {
     const classNames = col.className.split(" ");
     const tableColumn = classNames.find((c) => c.startsWith("column-"));
     const columnName = tableColumn.split("-")[1];
@@ -166,8 +171,9 @@ function appendModal() {
       <div class="filter-select">
         <select name="table-columns" id="table-columns" class="wide">
           ${columnNames
-            .map((c) => `<option value="${c}">${c}</option>`)
-            .join("")}
+      .map((c) => `<option value="${c}">${c}</option>`)
+      .join("")
+    }
         </select>
       </div>
       <div class="tab">
@@ -267,7 +273,7 @@ function showModal(columnName, focusInput) {
   }
   selectInstance = new NiceSelect(document.getElementById("table-columns"), {
     searchable: true,
-    onChanged: function () {
+    onChanged: function() {
       setTimeout(() => {
         dialog.querySelector(".filter-box").focus();
       }, 300);
@@ -285,7 +291,7 @@ function showModal(columnName, focusInput) {
 function appendFilterButtons() {
   var columns = document.querySelectorAll("#result_list th.sortable");
 
-  columns.forEach(function (col) {
+  columns.forEach(function(col) {
     const classNames = col.className.split(" ");
     const tableColumn = classNames.find((c) => c.startsWith("column-"));
     const columnName = tableColumn.split("-")[1];
@@ -297,14 +303,14 @@ function appendFilterButtons() {
     copyButton.innerHTML = "Copy";
     col.prepend(copyButton);
 
-    copyButton.addEventListener("click", function (event) {
+    copyButton.addEventListener("click", function(event) {
       event.preventDefault();
 
       var valueCols = document.querySelectorAll(
         `#result_list tbody .field-${columnName}`,
       );
       var values = [];
-      valueCols.forEach(function (el) {
+      valueCols.forEach(function(el) {
         let content = el.textContent;
         if (el.children[0]?.tagName?.toLocaleLowerCase() === "a") {
           content = content.replace(/\w+\s?\((\d+)\)/, "$1");
@@ -326,7 +332,7 @@ function appendFilterButtons() {
     button.innerHTML = columnName;
     col.prepend(button);
 
-    button.addEventListener("click", function (event) {
+    button.addEventListener("click", function(event) {
       event.preventDefault();
       showModal(columnName);
     });
@@ -339,14 +345,14 @@ function appendFilterButtons() {
   filterButton.innerHTML = "Filter";
   node.prepend(filterButton);
 
-  filterButton.addEventListener("click", function (event) {
+  filterButton.addEventListener("click", function(event) {
     event.preventDefault();
     showColumnPicker();
   });
 }
 
 function bindSearchField() {
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", function(event) {
     if (event.ctrlKey && event.key === "j") {
       filters = [];
       showModal(null, false);
@@ -378,7 +384,7 @@ function bindSearchField() {
 function bindFilterApply() {
   const dialog = document.querySelector("dialog.filter");
 
-  dialog.addEventListener("keydown", function (event) {
+  dialog.addEventListener("keydown", function(event) {
     if (event.ctrlKey && event.keyCode == 13) {
       setFilter();
       event.preventDefault();
@@ -399,7 +405,7 @@ function cleanDecimalValue() {
   const pattern = /^(\d+.0{2})(0{10,})(.*)$/;
   document
     .querySelectorAll('#result_list td[class^="field-"]')
-    .forEach(function (el) {
+    .forEach(function(el) {
       const text = el.textContent;
       if (text.match(pattern)) {
         el.textContent = text.replace(pattern, "$1");
@@ -469,7 +475,7 @@ function injectColumnPickerDialog() {
       props: {
         columns: [...columnNames].sort(),
         selectedColumns: selectedColumns,
-        applyFilter: function (columns) {
+        applyFilter: function(columns) {
           columnPickerDialog.close();
           localSettings[window.location.pathname] = columns;
           browser.storage.local.set({
@@ -491,7 +497,7 @@ function showRowDetail(event) {
   const values = [];
   const el = event.target.closest("tr");
   console.log(el);
-  el.childNodes.forEach(function (node, index) {
+  el.childNodes.forEach(function(node, index) {
     if (index > 0) {
       if (node.childNodes.length > 0) {
         values.push(node.childNodes[0]);
@@ -503,7 +509,7 @@ function showRowDetail(event) {
 
   const columns = [];
 
-  columnNames.forEach(function (columnName, index) {
+  columnNames.forEach(function(columnName, index) {
     columns.push({ name: columnName, value: values[index] });
   });
 
@@ -517,7 +523,7 @@ function showColumnPicker() {
 }
 
 function injectViewButtons() {
-  document.querySelectorAll("#result_list tbody tr").forEach(function (el) {
+  document.querySelectorAll("#result_list tbody tr").forEach(function(el) {
     const buttonGroup = document.createElement("div");
     buttonGroup.className = "action-buttons";
 
@@ -538,7 +544,7 @@ function injectViewButtons() {
 
 // render table columns based on selected columns
 function renderColumns() {
-  columnNames.forEach(function (columnName) {
+  columnNames.forEach(function(columnName) {
     if (selectedColumns.includes(columnName)) {
       setColumnVisible(columnName, true);
     } else {
@@ -552,19 +558,19 @@ function setColumnVisible(columnName, visible) {
   let display = visible ? "" : "none";
   document
     .querySelectorAll(`#result_list td.field-${columnName}`)
-    .forEach(function (el) {
+    .forEach(function(el) {
       el.style.display = display;
     });
 
   document
     .querySelectorAll(`#result_list th.field-${columnName}`)
-    .forEach(function (el) {
+    .forEach(function(el) {
       el.style.display = display;
     });
 
   document
     .querySelectorAll(`#result_list th.column-${columnName}`)
-    .forEach(function (el) {
+    .forEach(function(el) {
       el.style.display = display;
     });
 }
