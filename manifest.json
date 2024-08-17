@@ -1,7 +1,7 @@
 {
     "name": "Djadmin Pro",
     "manifest_version": 3,
-    "version": "1.8.0",
+    "version": "1.9.0",
     "description": "Help you to like a Pro",
     "content_scripts": [
         {
@@ -15,12 +15,10 @@
                 "content.css"
             ],
             "matches": [
-                "https://dev-djadmin.onpoint.vn/*",
-                "https://djadmin.onpoint.vn/*",
-                "https://stg-djadmin.onpoint.vn/*",
-                "https://uat-djadmin.onpoint.vn/*",
-                "https://dev-gddjadmin.onpoint.vn/*",
-                "https://gddjadmin.onpoint.vn/*"
+                "https://*.onpoint.vn/*"
+            ],
+            "include_globs": [
+                "*djadmin.onpoint.vn/*"
             ]
         }
     ],
@@ -28,9 +26,6 @@
         "contextMenus",
         "tabs",
         "storage"
-    ],
-    "web_accessible_resources": [
-        "*.html"
     ],
     "icons": {
         "32": "static/icon32.png",
