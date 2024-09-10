@@ -22,7 +22,7 @@
         "*://*/*"
       ],
       "include_globs": [
-        "*://*.onpoint.vn/*"
+        "*://*djadmin.onpoint.vn/*"
       ]
     }
   ],
