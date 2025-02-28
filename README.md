@@ -11,7 +11,7 @@ An Awesome extension that help quering with django faster and easier
 
 ## II. Install
 Download extension
-### [Download](https://github.com/bluzky/djadmin-pro/releases/)
+### [Download](https://github.com/quangvo09/djadmin-pro/releases/)
 
 ### For Chrome ("Load unpacked extension")
 1. Download and unpack the source code from the latest release or git-clone the master branch of this repository into a local folder
