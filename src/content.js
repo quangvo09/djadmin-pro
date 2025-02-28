@@ -338,7 +338,7 @@ function appendFilterButtons() {
     });
   });
 
-  const node = document.querySelector("#result_list th.action-checkbox-column");
+  const node = document.querySelector("#result_list th:nth-child(1)");
   const filterButton = document.createElement("button");
 
   filterButton.className = "btn-secondary";
@@ -524,6 +524,7 @@ function showColumnPicker() {
 
 function injectViewButtons() {
   document.querySelectorAll("#result_list tbody tr").forEach(function(el) {
+    const idColumn = el.querySelector(".field-id");
     const buttonGroup = document.createElement("div");
     buttonGroup.className = "action-buttons";
 
@@ -535,10 +536,10 @@ function injectViewButtons() {
     const editButton = document.createElement("a");
     editButton.className = "edit-link";
     editButton.innerHTML = "Edit";
-    editButton.href = el.childNodes[1].querySelector("a").href;
+    editButton.href = idColumn.querySelector("a").href;
     buttonGroup.appendChild(viewButton);
     buttonGroup.appendChild(editButton);
-    el.childNodes[1].appendChild(buttonGroup);
+    idColumn.appendChild(buttonGroup);
   });
 }
 
