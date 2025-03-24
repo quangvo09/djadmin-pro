@@ -1,3 +1,7 @@
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
+
 body:not(.dark-mode) button.filter {
   color: white;
   background: #53738e !important;
@@ -30,14 +34,20 @@ body:not(.dark-mode) .close:hover,
 body:not(.dark-mode) .close:focus {
   background: #4b6982 !important;
 }
+
+dialog{
+    border: transparent;
+    color: #888;
+    position: relative;
+}
 body:not(.dark-mode) dialog {
   min-width: 427px;
+  max-width: 860px;
   padding: 16px;
   background: white !important;
   box-shadow: 0 0 32px 16px rgba(0, 0, 0, 0.32);
   transition: all 0.3s ease;
   border-radius: 10px;
-  color: transparent !important;
 }
 body:not(.dark-mode) #modal-content {
   padding-top: 20px;
@@ -142,15 +152,6 @@ body.dark-mode .close:hover,
 body.dark-mode .close:focus {
   background: #4b6982 !important;
 }
-body.dark-mode dialog {
-  min-width: 427px;
-  padding: 16px;
-  background: white !important;
-  box-shadow: 0 0 32px 16px rgba(0, 0, 0, 0.32);
-  transition: all 0.3s ease;
-  border-radius: 10px;
-  color: transparent !important;
-}
 body.dark-mode #modal-content {
   padding-top: 20px;
 }
@@ -243,4 +244,41 @@ p {
   width: 100%;
   margin: 10px 0;
   color: #999;
+}
+
+.action-buttons{
+    margin-top: 8px;
+    display: flex;
+}
+
+.action-buttons a{
+    display: inline-block;
+    padding: 3px 8px;
+    margin-right: 5px;
+    color: #333;
+    font-size: 11px;
+    font-weight: 400;
+
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.action-buttons a:hover{
+    background-color: #eee;
+}
+
+.btn-copy{
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    color: #888; width: 20px; height: 20px; display: inline-block;
+    cursor: pointer;
+}
+
+td:hover .btn-copy{
+    opacity: 1;
+}
+
+td.copyable{
+    cursor: pointer;
 }
