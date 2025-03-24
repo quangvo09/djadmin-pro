@@ -1,3 +1,5 @@
+import "./nice-select2.css";
+import fuzzy from "./fuzzy.js";
 // utility functions
 function triggerEvent(el, event) {
   if (!event) {
@@ -366,7 +368,7 @@ NiceSelect.prototype._onKeyPressed = function (e) {
     } else {
       triggerEvent(this.dropdown);
     }
-  } else if (e.keyCode == 40) {
+  } else if (e.keyCode == 40 || (e.ctrlKey && e.key == "n")) {
     // Down
     if (!open) {
       triggerEvent(this.dropdown);
@@ -382,7 +384,7 @@ NiceSelect.prototype._onKeyPressed = function (e) {
       }
     }
     e.preventDefault();
-  } else if (e.keyCode == 38) {
+  } else if (e.keyCode == 38 || (e.ctrlKey && e.key == "p")) {
     // Up
     if (!open) {
       triggerEvent(this.dropdown);
@@ -401,6 +403,7 @@ NiceSelect.prototype._onKeyPressed = function (e) {
   } else if (e.keyCode == 27 && open) {
     // Esc
     triggerEvent(this.dropdown);
+    e.preventDefault();
   }
   return false;
 };
@@ -483,7 +486,10 @@ NiceSelect.prototype._sortBySimilarity = function (text) {
     });
   } else {
     let list = this.options.map((item) => {
-      return { similarity: JaroWrinker(item.data.text, text), option: item };
+      return {
+        similarity: fuzzy.score(text, item.data.text.toLowerCase()),
+        option: item,
+      };
     });
 
     list.sort((a, b) => b.similarity - a.similarity);
@@ -498,3 +504,4 @@ NiceSelect.prototype._sortBySimilarity = function (text) {
     });
   }
 };
+window.NiceSelect = NiceSelect;

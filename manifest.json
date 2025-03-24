@@ -1,0 +1,41 @@
+{
+    "name": "Djadmin Pro",
+    "manifest_version": 3,
+    "version": "1.9.0",
+    "description": "Help you to like a Pro",
+    "content_scripts": [
+        {
+            "js": [
+                "nice-select2.js",
+                "content.js",
+                "searchTable.js"
+            ],
+            "css": [
+                "nice-select2.css",
+                "content.css"
+            ],
+            "matches": [
+                "https://*.onpoint.vn/*"
+            ],
+            "include_globs": [
+                "*djadmin.onpoint.vn/*"
+            ]
+        }
+    ],
+    "permissions": [
+        "contextMenus",
+        "tabs",
+        "storage"
+    ],
+    "icons": {
+        "32": "static/icon32.png",
+        "48": "static/icon48.png",
+        "96": "static/icon96.png"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{14cad338-58f9-4b6d-9f2c-3a5a133564f8}",
+            "strict_min_version": "82.0"
+        }
+    }
+}

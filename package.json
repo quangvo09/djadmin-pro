@@ -1,0 +1,28 @@
+{
+  "name": "djquery",
+  "version": "1.0.0",
+  "description": "Djadmin query tool helpers",
+  "main": "index.js",
+  "author": "bluzky",
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/build.js --build",
+    "watch": "node scripts/build.js --watch"
+  },
+  "dependencies": {
+    "esbuild": "^0.19.2",
+    "esbuild-plugin-copy": "^2.1.1",
+    "esbuild-plugin-sass": "^1.0.1",
+    "svelte-json-tree": "^2.2.0",
+    "tailwindcss": "^3.3.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.15",
+    "esbuild-style-plugin": "^1.6.2",
+    "esbuild-svelte": "^0.8.0",
+    "postcss": "^8.4.29",
+    "prettier": "^3.0.3",
+    "prettier-plugin-svelte": "^3.0.3",
+    "svelte": "^4.2.0"
+  }
+}
