@@ -132,19 +132,19 @@ function setFilter() {
 }
 
 function appendFilter() {
-  const dialog = document.querySelector("#filter-modal");
   const element = document.getElementById("table-columns");
   const columnName = element.value;
 
   if ("URLSearchParams" in window) {
     collectFilter(columnName);
+    if (filters.length > 0) {
+      const searchParams = new URLSearchParams(window.location.search);
+      compileFilter(searchParams);
+      window.location.search = searchParams.toString();
+    }
   }
-
-  openTab("match");
-  dialog.querySelector(".filter-box").value = "";
-  selectInstance.clear();
-  selectInstance.focus();
 }
+
 
 function appendModal() {
   const modal = document.createElement("dialog");
@@ -389,7 +389,7 @@ function bindFilterApply() {
       setFilter();
       event.preventDefault();
     }
-
+    
     if (event.shiftKey && event.keyCode == 13) {
       appendFilter();
       event.preventDefault();
